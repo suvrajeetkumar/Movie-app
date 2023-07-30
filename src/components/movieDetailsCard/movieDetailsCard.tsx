@@ -14,9 +14,8 @@ interface MovieCardProps {
   year: string
 }
 
-const MovieCard = ({ movieId, title, genre, imdbRating, cast, director, poster, type, year } : MovieCardProps) => {
+const MovieDetailsCard = ({ movieId, title, genre, imdbRating, cast, director, poster, type, year } : MovieCardProps) => {
   const [movieSaved, setMovieSaved] = useState(false);
-
   const saveMovieBtnStyles = css`
     background-color: green;
     color: white;
@@ -45,7 +44,7 @@ const MovieCard = ({ movieId, title, genre, imdbRating, cast, director, poster, 
     if(localStorage.getItem("savedMovies")) {
         const stringifiedItem = localStorage.getItem("savedMovies");
         const savedMoviesObj = JSON.parse(stringifiedItem ? stringifiedItem : "{}");
-        if(savedMoviesObj.hasOwnProperty(movieId)){
+        if( movieId in savedMoviesObj){
             setMovieSaved(true);
         }
     }
@@ -67,12 +66,12 @@ const MovieCard = ({ movieId, title, genre, imdbRating, cast, director, poster, 
     if(localStorage.getItem("savedMovies")) {
         const stringifiedItem = localStorage.getItem("savedMovies");
         const savedMoviesObj = JSON.parse(stringifiedItem ? stringifiedItem : "{}");
-        if(savedMoviesObj && !savedMoviesObj.hasOwnProperty(movieId)){
+        if(savedMoviesObj && !(movieId in savedMoviesObj)){
             savedMoviesObj[movieId] = MovieDetails;
         }
         localStorage.setItem("savedMovies", JSON.stringify(savedMoviesObj));
     } else {
-        let savedMoviesObj:any = {}
+        const savedMoviesObj:any = {}
         savedMoviesObj[movieId] = MovieDetails;
         localStorage.setItem("savedMovies", JSON.stringify(savedMoviesObj));
     }
@@ -83,7 +82,7 @@ const MovieCard = ({ movieId, title, genre, imdbRating, cast, director, poster, 
     if(localStorage.getItem("savedMovies")) {
         const stringifiedItem = localStorage.getItem("savedMovies");
         const savedMoviesObj = JSON.parse(stringifiedItem ? stringifiedItem : "{}");
-        if(savedMoviesObj && savedMoviesObj.hasOwnProperty(movieId)){
+        if(savedMoviesObj && (movieId in savedMoviesObj)){
             delete savedMoviesObj[movieId];
             localStorage.setItem("savedMovies", JSON.stringify(savedMoviesObj));
         }
@@ -119,6 +118,8 @@ const MovieCard = ({ movieId, title, genre, imdbRating, cast, director, poster, 
     >
       <div>
         <div className={css`
+        font-size: 1.5rem;
+        margin: 2%;
         text-align: center;
         `}>Movie Description</div>
       <div className={css`
@@ -136,7 +137,6 @@ const MovieCard = ({ movieId, title, genre, imdbRating, cast, director, poster, 
         <p>Director: {director}</p>
         <p>Imdb Rating: {imdbRating}</p>
         <p>Cast: {cast}</p>
-        <p>Director: {director}</p>
         {!movieSaved ? <button className={saveMovieBtnStyles} 
         onClick={saveMovieHandler}>Save Movie</button>
         : <div>
@@ -150,4 +150,4 @@ const MovieCard = ({ movieId, title, genre, imdbRating, cast, director, poster, 
   );
 };
 
-export default MovieCard;
+export default MovieDetailsCard;

@@ -36,6 +36,7 @@ const Pagination = ({ totalItems, currentPage, itemsPerPage, setCurrentPage }: P
     justify-content: center;
     text-decoration: none;
     margin-left: 5px;
+    cursor: pointer;
   `
 
   const activePage = css`
@@ -49,6 +50,7 @@ const Pagination = ({ totalItems, currentPage, itemsPerPage, setCurrentPage }: P
     background-color: darkblue;
     color: white;
     margin-left: 5px;
+    cursor: pointer;
   `
 
   const linkTagStyle = css`
@@ -67,8 +69,9 @@ const Pagination = ({ totalItems, currentPage, itemsPerPage, setCurrentPage }: P
           <li
             key={index}
             className={currentPage === index + 1 ? activePage : liStyles}
+            onClick={() => handlePageChange(index + 1)}
           >
-            <a href="#" className={currentPage === index + 1 ? activeLinkTagStyle : linkTagStyle} onClick={() => handlePageChange(index + 1)}>
+            <a href="#" className={currentPage === index + 1 ? activeLinkTagStyle : linkTagStyle}>
               {index + 1}
             </a>
           </li>

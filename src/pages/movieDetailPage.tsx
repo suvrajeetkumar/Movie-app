@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import MovieDetailsCard from '../components/movieDetailsCard';
+import MovieDetailsCard from '../components/movieDetailsCard/movieDetailsCard';
 import { getMovieDescription } from '../actions/MovieListApis';
 import MovieDetailsSkeleton from '../components/skeletonMovieDetailsCard';
-
+import { useThemeContext } from '../context/provider';
 import { css } from '@emotion/css';
 
 interface MovieDetails {
@@ -33,6 +33,7 @@ interface MovieDetails {
 const MovieDetailPage = () => {
     
     const [movieDetails, setMovieDetails] = useState<MovieDetails | null>(null)
+    const { isDarkMode, toggleTheme } = useThemeContext();
     const query = new URLSearchParams(window.location.search);
     const movieId = query.get('movieId')
     const getMovieDetails = async () => {
@@ -60,8 +61,8 @@ const MovieDetailPage = () => {
     justify-content: center;
     align-items: center;
     height: auto;
-    @media (min-width: 601px) {
-        background-color: #eaeaed;
+    ${
+        isDarkMode ? `background-color: #111111;` : `background-color: #eaeaed;`
     }
 
     @media (min-height: 796px) {
